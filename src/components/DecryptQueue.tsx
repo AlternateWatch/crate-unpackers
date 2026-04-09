@@ -26,7 +26,7 @@ function JobProgress({ job, now }: { job: DecryptJob; now: number }) {
 }
 
 export default function DecryptQueue({ queue, money, upgrades, onAddCrate }: Props) {
-  const [now, setNow] = useState(Date.now());
+  const [now, setNow] = useState(() => Date.now());
 
   useEffect(() => {
     const id = setInterval(() => setNow(Date.now()), 200);
