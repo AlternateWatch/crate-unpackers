@@ -6,6 +6,7 @@ import { AUTOSAVE_INTERVAL } from './constants';
 import CurrencyDisplay from './components/CurrencyDisplay';
 import DecryptQueue from './components/DecryptQueue';
 import Inventory from './components/Inventory';
+import UnboxedInventory from './components/UnboxedInventory';
 import Upgrades from './components/Upgrades';
 import EventLog from './components/EventLog';
 import SaveManager from './components/SaveManager';
@@ -88,6 +89,11 @@ export default function App() {
             onSell={(id) => dispatch({ type: 'SELL_CRATE', crateId: id })}
           />
         </div>
+        <UnboxedInventory
+          items={state.unboxedItems}
+          upgrades={state.upgrades}
+          onSell={(id) => dispatch({ type: 'SELL_ITEM', itemId: id })}
+        />
         <Upgrades
           upgrades={state.upgrades}
           money={state.money}

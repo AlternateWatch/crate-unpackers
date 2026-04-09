@@ -6,6 +6,10 @@ export interface CrateReward {
   value: number;
 }
 
+export interface UnboxedItem extends CrateReward {
+  id: string;
+}
+
 export interface DecryptJob {
   id: string;
   startTime: number;   // ms timestamp
@@ -35,6 +39,7 @@ export interface GameState {
   money: number;
   decryptQueue: DecryptJob[];
   inventory: InventoryCrate[];
+  unboxedItems: UnboxedItem[];
   upgrades: UpgradeState;
   stats: Stats;
   eventLog: string[];

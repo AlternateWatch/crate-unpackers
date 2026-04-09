@@ -1,5 +1,5 @@
-import type { GameState, DecryptJob, InventoryCrate, UpgradeState } from './types';
-import { STARTING_MONEY, BASE_DECRYPT_TIME, CRATE_COST, MAX_EVENT_LOG, MAX_INVENTORY, UPGRADE_DEFS } from './constants';
+import type { GameState, DecryptJob, InventoryCrate, UnboxedItem, UpgradeState } from './types';
+import { STARTING_MONEY, BASE_DECRYPT_TIME, CRATE_COST, MAX_EVENT_LOG, MAX_INVENTORY, MAX_UNBOXED_ITEMS, UPGRADE_DEFS } from './constants';
 import { rollReward, getUpgradeCost, generateId } from './utils';
 
 export function createInitialState(): GameState {
@@ -7,6 +7,7 @@ export function createInitialState(): GameState {
     money: STARTING_MONEY,
     decryptQueue: [],
     inventory: [],
+    unboxedItems: [],
     upgrades: { decryptSpeed: 0, luckBonus: 0, sellBonus: 0, queueSize: 0 },
     stats: { totalOpened: 0, totalSold: 0, moneyEarned: 0, bestDrop: null },
     eventLog: ['Welcome to Crate Unpackers! Add a crate to the decrypt queue to begin.'],
@@ -19,6 +20,7 @@ export type GameAction =
   | { type: 'ADD_CRATE' }
   | { type: 'OPEN_CRATE'; crateId: string }
   | { type: 'SELL_CRATE'; crateId: string }
+  | { type: 'SELL_ITEM'; itemId: string }
   | { type: 'BUY_UPGRADE'; upgradeId: keyof UpgradeState }
   | { type: 'LOAD_STATE'; state: GameState }
   | { type: 'RESET' }
@@ -75,6 +77,7 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
     case 'OPEN_CRATE': {
       const crate = state.inventory.find(c => c.id === action.crateId);
       if (!crate) return state;
+      if (state.unboxedItems.length >= MAX_UNBOXED_ITEMS) return state;
       const reward = rollReward(
         UPGRADE_DEFS.find(u => u.id === 'luckBonus')!.effect(state.upgrades.luckBonus)
       );
@@ -83,9 +86,11 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
         !state.stats.bestDrop || reward.value > state.stats.bestDrop.value
           ? reward
           : state.stats.bestDrop;
+      const unboxedItem: UnboxedItem = { id: generateId(), rarity: reward.rarity, name: reward.name, value: reward.value };
       return {
         ...state,
         inventory: newInventory,
+        unboxedItems: [...state.unboxedItems, unboxedItem],
         stats: {
           ...state.stats,
           totalOpened: state.stats.totalOpened + 1,
@@ -115,6 +120,25 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
           moneyEarned: state.stats.moneyEarned + sellValue,
         },
         eventLog: addLog(state.eventLog, `💰 Sold crate for $${sellValue}`),
+      };
+    }
+
+    case 'SELL_ITEM': {
+      const item = state.unboxedItems.find(i => i.id === action.itemId);
+      if (!item) return state;
+      const sellDef = UPGRADE_DEFS.find(u => u.id === 'sellBonus')!;
+      const sellMult = sellDef.effect(state.upgrades.sellBonus);
+      const sellValue = Math.round(item.value * sellMult);
+      return {
+        ...state,
+        money: state.money + sellValue,
+        unboxedItems: state.unboxedItems.filter(i => i.id !== action.itemId),
+        stats: {
+          ...state.stats,
+          totalSold: state.stats.totalSold + 1,
+          moneyEarned: state.stats.moneyEarned + sellValue,
+        },
+        eventLog: addLog(state.eventLog, `💰 Sold [${item.rarity}] ${item.name} for $${sellValue}`),
       };
     }
 

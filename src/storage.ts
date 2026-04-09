@@ -18,6 +18,8 @@ export function loadGame(): GameState | null {
     if (typeof parsed.money !== 'number') return null;
     if (!Array.isArray(parsed.decryptQueue)) return null;
     if (!Array.isArray(parsed.inventory)) return null;
+    // Backward compat: older saves may not have unboxedItems
+    if (!Array.isArray(parsed.unboxedItems)) parsed.unboxedItems = [];
     return parsed;
   } catch {
     return null;
