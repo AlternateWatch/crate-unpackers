@@ -1,1 +1,14 @@
-body { margin: 0; }
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  background-color: #03060a;
+  background-image:
+    radial-gradient(ellipse 90% 55% at 50% 0%, rgba(0, 55, 100, 0.45) 0%, transparent 65%),
+    radial-gradient(ellipse 60% 40% at 90% 80%, rgba(60, 0, 100, 0.18) 0%, transparent 55%);
+  min-height: 100vh;
+}

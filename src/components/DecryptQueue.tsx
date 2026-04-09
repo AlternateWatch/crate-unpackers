@@ -16,7 +16,10 @@ function JobProgress({ job, now }: { job: DecryptJob; now: number }) {
   const remaining = Math.max(0, job.duration - elapsed);
   return (
     <div className="decrypt-job">
-      <div className="job-label">🔐 Decrypting...</div>
+      <div className="job-label">
+        <span>🔐 Decrypting...</span>
+        <span className="status-chip chip-decrypting">Active</span>
+      </div>
       <div className="progress-bar">
         <div className="progress-fill" style={{ width: `${progress * 100}%` }} />
       </div>
@@ -35,16 +38,27 @@ export default function DecryptQueue({ queue, money, upgrades, onAddCrate }: Pro
 
   const queueDef = UPGRADE_DEFS.find(u => u.id === 'queueSize')!;
   const maxQueue = queueDef.effect(upgrades.queueSize);
-  const canAdd = queue.length < maxQueue && money >= CRATE_COST;
+  const isFull = queue.length >= maxQueue;
+  const canAdd = !isFull && money >= CRATE_COST;
 
   return (
     <div className="panel decrypt-panel">
       <h2>🔒 Decrypt Queue ({queue.length}/{maxQueue})</h2>
+
+      {(isFull || money < CRATE_COST) && (
+        <div className="queue-status-row">
+          {isFull && <span className="status-chip chip-full">Queue Full</span>}
+          {!isFull && money < CRATE_COST && (
+            <span className="status-chip chip-funds">Need ${CRATE_COST}</span>
+          )}
+        </div>
+      )}
+
       <button
         className="btn btn-primary"
         onClick={onAddCrate}
         disabled={!canAdd}
-        title={money < CRATE_COST ? `Need $${CRATE_COST}` : queue.length >= maxQueue ? 'Queue full' : ''}
+        title={money < CRATE_COST ? `Need $${CRATE_COST}` : isFull ? 'Queue full' : ''}
       >
         + Add Crate (${CRATE_COST})
       </button>
