@@ -19,7 +19,7 @@ export default function Upgrades({ upgrades, money, onBuy }: Props) {
           const cost = maxed ? 0 : getUpgradeCost(def.baseCost, def.costMultiplier, level);
           const canAfford = !maxed && money >= cost;
           const nextLevel = level + 1;
-          const nextEffectValue = maxed ? 0 : (nextLevel - level) * 10;
+          const nextEffectValue = maxed ? 0 : Math.round((def.effect(nextLevel) - def.effect(level)) * 100);
           return (
             <div key={def.id} className={`upgrade-card ${maxed ? 'maxed' : ''} ${canAfford ? 'affordable' : ''}`}>
               <div className="upgrade-header">
