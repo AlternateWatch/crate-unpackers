@@ -18,7 +18,7 @@ export const RARITY_NAMES: Record<Rarity, string[]> = {
 
 export const BASE_DECRYPT_TIME = 10_000; // 10 seconds
 
-export const CRATE_COST = 5;
+export const CRATE_COST = 15;
 
 export const STARTING_MONEY = 50;
 
@@ -74,4 +74,5 @@ export const UPGRADE_DEFS: UpgradeDef[] = [
 export const AUTOSAVE_INTERVAL = 30_000;
 export const MAX_EVENT_LOG = 50;
 export const MAX_INVENTORY = 20;
+export const MAX_UNBOXED_ITEMS = 50;
 export const OFFLINE_CAP_MS = 8 * 60 * 60 * 1000;
