@@ -22,7 +22,10 @@ export default function App() {
   });
 
   const stateRef = useRef(state);
-  stateRef.current = state;
+
+  useEffect(() => {
+    stateRef.current = state;
+  });
 
   useEffect(() => {
     const interval = setInterval(() => {
