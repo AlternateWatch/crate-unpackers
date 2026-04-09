@@ -1,0 +1,384 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #0d1117;
+  color: #c9d1d9;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  min-height: 100vh;
+}
+
+.app {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1rem 2rem;
+}
+
+/* Header */
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0;
+  border-bottom: 1px solid #30363d;
+  margin-bottom: 1.5rem;
+}
+
+.app-header h1 {
+  font-size: 1.8rem;
+  color: #58a6ff;
+  letter-spacing: 0.05em;
+}
+
+/* Save Manager */
+.save-manager {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* Panels */
+.panel {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.panel h2 {
+  font-size: 1rem;
+  color: #8b949e;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #21262d;
+  padding-bottom: 0.5rem;
+}
+
+/* Currency Panel */
+.currency-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.money-display {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+}
+
+.money-label {
+  font-size: 0.875rem;
+  color: #8b949e;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.money-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #3fb950;
+  font-variant-numeric: tabular-nums;
+}
+
+.stats-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  font-size: 0.875rem;
+  color: #8b949e;
+}
+
+/* Game Panels Layout */
+.game-panels {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 640px) {
+  .game-panels {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Decrypt Queue */
+.decrypt-panel .btn-primary {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.queue-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.decrypt-job {
+  background: #0d1117;
+  border: 1px solid #21262d;
+  border-radius: 6px;
+  padding: 0.75rem;
+}
+
+.job-label {
+  font-size: 0.875rem;
+  color: #8b949e;
+  margin-bottom: 0.4rem;
+}
+
+.progress-bar {
+  height: 8px;
+  background: #21262d;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 0.4rem;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #238636, #3fb950);
+  border-radius: 4px;
+  transition: width 0.2s ease;
+}
+
+.job-time {
+  font-size: 0.75rem;
+  color: #58a6ff;
+  text-align: right;
+}
+
+/* Inventory */
+.inventory-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.inventory-crate {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #0d1117;
+  border: 1px solid #21262d;
+  border-radius: 6px;
+  padding: 0.6rem 0.75rem;
+}
+
+.crate-icon {
+  font-size: 1.25rem;
+}
+
+.crate-label {
+  flex: 1;
+  font-size: 0.875rem;
+  color: #c9d1d9;
+}
+
+.crate-actions {
+  display: flex;
+  gap: 0.4rem;
+}
+
+/* Upgrades */
+.upgrade-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 0.75rem;
+}
+
+.upgrade-card {
+  background: #0d1117;
+  border: 1px solid #21262d;
+  border-radius: 6px;
+  padding: 0.875rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  transition: border-color 0.15s;
+}
+
+.upgrade-card.affordable {
+  border-color: #238636;
+}
+
+.upgrade-card.maxed {
+  border-color: #f0b429;
+  opacity: 0.7;
+}
+
+.upgrade-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.upgrade-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #c9d1d9;
+}
+
+.upgrade-level {
+  font-size: 0.75rem;
+  color: #8b949e;
+}
+
+.upgrade-desc {
+  font-size: 0.8rem;
+  color: #8b949e;
+  line-height: 1.4;
+}
+
+/* Event Log */
+.event-log-panel .panel {
+  margin-bottom: 0;
+}
+
+.event-log-list {
+  max-height: 200px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.log-entry {
+  font-size: 0.8rem;
+  color: #8b949e;
+  padding: 0.25rem 0;
+  border-bottom: 1px solid #21262d;
+  line-height: 1.4;
+}
+
+.log-entry:last-child {
+  border-bottom: none;
+}
+
+/* Buttons */
+.btn {
+  padding: 0.45rem 0.875rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: background 0.15s, opacity 0.15s;
+  white-space: nowrap;
+}
+
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: #238636;
+  color: #fff;
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #2ea043;
+}
+
+.btn-open {
+  background: #1f6feb;
+  color: #fff;
+}
+
+.btn-open:hover:not(:disabled) {
+  background: #388bfd;
+}
+
+.btn-sell {
+  background: #9e6a03;
+  color: #fff;
+}
+
+.btn-sell:hover:not(:disabled) {
+  background: #d29922;
+}
+
+.btn-upgrade {
+  background: #21262d;
+  color: #c9d1d9;
+  border: 1px solid #30363d;
+  margin-top: auto;
+}
+
+.btn-upgrade:hover:not(:disabled) {
+  background: #30363d;
+}
+
+.upgrade-card.affordable .btn-upgrade {
+  background: #238636;
+  color: #fff;
+  border-color: #238636;
+}
+
+.upgrade-card.affordable .btn-upgrade:hover {
+  background: #2ea043;
+}
+
+.upgrade-card.maxed .btn-upgrade {
+  background: #9e6a03;
+  color: #fff;
+  border-color: #9e6a03;
+}
+
+.btn-save {
+  background: #21262d;
+  color: #8b949e;
+  border: 1px solid #30363d;
+}
+
+.btn-save:hover:not(:disabled) {
+  background: #30363d;
+  color: #c9d1d9;
+}
+
+.btn-reset {
+  background: #21262d;
+  color: #f85149;
+  border: 1px solid #30363d;
+}
+
+.btn-reset:hover:not(:disabled) {
+  background: #3d1a1a;
+  border-color: #f85149;
+}
+
+/* Empty state messages */
+.empty-msg {
+  font-size: 0.875rem;
+  color: #484f58;
+  text-align: center;
+  padding: 1rem 0;
+  font-style: italic;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0d1117;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #30363d;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #484f58;
+}
