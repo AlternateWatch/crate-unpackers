@@ -19,8 +19,17 @@ export default function CurrencyDisplay({ money, stats }: Props) {
         <span>💰 Sold: {stats.totalSold}</span>
         <span>💵 Earned: {formatMoney(stats.moneyEarned)}</span>
         {stats.bestDrop && (
-          <span style={{ color: RARITY_CONFIG[stats.bestDrop.rarity].color }}>
-            🏆 Best: [{stats.bestDrop.rarity}] {stats.bestDrop.name}
+          <span>
+            🏆 Best:&nbsp;
+            <span
+              className={`rarity-badge rarity-${stats.bestDrop.rarity.toLowerCase()}`}
+            >
+              {stats.bestDrop.rarity}
+            </span>
+            &nbsp;
+            <span style={{ color: RARITY_CONFIG[stats.bestDrop.rarity].color }}>
+              {stats.bestDrop.name}
+            </span>
           </span>
         )}
       </div>
